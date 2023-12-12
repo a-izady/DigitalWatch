@@ -1,0 +1,173 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Alireza Izady</h1>
+</div>
+
+<h1>Ajax</h1>
+
+
+
+<h1>JavaScript  <span class="badge bg-secondary"> Progress Bar</span></h1>
+
+
+
+<div class="progress" style="height:25px">
+    <div id="myBar2" class="progress-bar progress-bar-striped progress-bar-animated bg-warning" style="width:40%"></div>
+</div>
+
+<p id="demoAj"></p>
+<button class="btn-primary" onclick="RunAjaxFunction()">Get Random Value by Ajax</button>
+<script>
+    function RunAjaxFunction() {
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("OnGetAjax", "Home")',
+            cache: false,
+            success: function (result) {
+                document.getElementById("demoAj").innerHTML = result;
+                document.getElementById("myBar2").style.width = parseInt(result) / 10 + '%';
+                document.getElementById("myBar2").innerHTML = parseInt(result) / 10 + '%';
+            }
+        });
+
+    }
+</script>
+
+
+
+
+<div class="row">
+    <div class="col"></div>
+    <div class="col">
+        <div class="container my-5 p-5 bg-info">
+            <h1>JavaScript Digital Watch</h1>
+            <p id="demo" style="color:blue;font-size:50px;"></p>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-5">
+                    <button class="btn-warning mx-2" onclick="myStartFunction()" id="StartBtn" disabled="disabled">Start time</button>
+                </div>
+                <div class="col-5">
+                    <button class="btn-danger mx-2" onclick="myStopFunction()" id="StopBtn">Stop time</button>
+                </div>
+                <div class="col-2"></div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col"></div>
+</div>
+
+
+
+
+
+<script>
+    let myInterval = setInterval(myTimer, 1000);
+
+    function myTimer() {
+        const date = new Date();
+        document.getElementById("demo").innerHTML = date.toLocaleTimeString();
+    }
+    function myStartFunction() {
+        document.getElementById("StopBtn").removeAttribute("disabled");
+        document.getElementById("StartBtn").setAttribute("disabled", "disabled");
+        myInterval = setInterval(myTimer, 1000);
+
+    }
+    function myStopFunction() {
+        clearInterval(myInterval);
+        document.getElementById("StartBtn").removeAttribute("disabled");
+        document.getElementById("StopBtn").setAttribute("disabled", "disabled");
+    }
+</script>
+
+<br />
+<br />
+<style>
+    #myProgress {
+        width: 100%;
+        height: 30px;
+        position: relative;
+        background-color: #ddd;
+    }
+
+    #myBar {
+        background-color: #4CAF50;
+        width: 10px;
+        height: 30px;
+        position: absolute;
+    }
+</style>
+
+
+<h1>JavaScript Progress Bar</h1>
+
+<div id="myProgress">
+    <div id="myBar"></div>
+</div>
+
+<br>
+<button class="btn-info" onclick="move()">Click Me</button>
+
+<script>
+    function move() {
+        const element = document.getElementById("myBar");
+        let width = 0;
+        const id = setInterval(frame, 10);
+        function frame() {
+            if (width == 100) {
+                clearInterval(id);
+            } else {
+                width++;
+                element.style.width = width + '%';
+            }
+        }
+    }
+</script>
+
+
+
+
+@*-------------- Option ------------------*@
+<div class="row">
+    <div class="col">        
+        <input class="btn btn-dark" value="Add" onclick="AjaxAdd()" />
+    </div>
+    <div class="col">
+        <p id="AddId"></p>
+    </div>
+    <div class="col">
+        <input class="btn btn-dark" value="Get Date Time" onclick="AjaxGetDateTime()" />
+    </div>
+    <div class="col">
+        <p id="DateId"></p>
+    </div>
+</div>
+<script>
+    function AjaxAdd() {
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("OnGetAdd", "Home")',
+            cache: false,
+            success: function (result) {
+                document.getElementById("AddId").innerHTML = result;
+            }
+        });
+        
+    }
+    function AjaxGetDateTime() {
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("OnGetDateTimeTest", "Home")',
+            cache: false,
+            success: function (result) {
+                document.getElementById("DateId").innerHTML = result;
+            }
+        });
+
+    }
+</script>

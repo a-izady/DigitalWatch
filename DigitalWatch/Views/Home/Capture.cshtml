@@ -1,0 +1,53 @@
+﻿<body class="container">       
+    <div class="col-md-6" style="padding-top:50px;">
+        <div class="panel panel-default">
+            <div class="panel-heading">Live Web Camera</div>
+            <div class="panel-body">
+                <div id="LiveCamera" style="margin-bottom:50px;"></div>                
+                <form>
+                    <input type="button" class="btn btn-primary" value="Capture Snapshot" onClick="CaptureSnapshot()">
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6" style="padding-top:50px;">
+        <div class="panel panel-default">
+            <div class="panel-heading">Captured Snapshot/Image</div>
+            <div class="panel-body">
+                <div id="results">Your snapshot will appear here...</div>
+            </div>
+            <br />
+            <br />
+        </div>
+    </div>
+    
+    <!-- Include the Webcam.js JavaScript Library -->
+    <script src="~/webcamjs/webcam.js"></script>
+    <!-- Configure web cam settings -->
+    <script language="JavaScript">
+        Webcam.set({
+            width: 500,
+            height: 375,
+            image_format: 'png',
+            jpeg_quality: 100
+        });
+        Webcam.attach('#LiveCamera');
+    </script>
+
+    <!-- Javascript code to capture the snapshot and displaying it in the screen -->
+    <script language="JavaScript">
+        function CaptureSnapshot() {           
+            Webcam.snap(function (data) {
+                // display results in page
+                document.getElementById('results').innerHTML = '<img src="' + data + '"/>';
+                // Send image data to the controller to store locally or in database
+                Webcam.upload(data,
+                    '/WebCam/CaptureImage',
+                    function (code, text) {
+                        alert('Snapshot/Image captured successfully...');
+                    });
+            });
+        }
+    </script>
+</body>
